@@ -3,6 +3,22 @@ require 'todo/task'
 
 module Todo
   describe Task do
+    describe 'complete!' do
+      let(:todo) { Task.new }
+
+      it 'marks the task as completed' do
+        expect(todo).to_not be_completed
+        todo.complete!
+        expect(todo).to be_completed
+      end
+
+      it 'marks the task with a completed_at date' do
+        expect(todo.completed_at).to be_nil
+        todo.complete!
+        expect(todo.completed_at).to be
+      end
+    end
+
     describe 'parse' do
       context 'completed' do
         let(:complete) { [
@@ -18,13 +34,13 @@ module Todo
 
         it 'parses completed tasks' do
           complete.each do |t|
-            expect(Task.parse(t).completed).to be(true)
+            expect(Task.parse(t)).to be_completed
           end
         end
 
         it 'parses incomplete tasks' do
           incomplete.each do |t|
-            expect(Task.parse(t).completed).to be(false)
+            expect(Task.parse(t)).to_not be_completed
           end
         end
       end

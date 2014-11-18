@@ -2,7 +2,7 @@ require 'date'
 require 'todo/relation'
 
 module Todo
-  Task = Relation.new(:priority, :created_at, :projects, :contexts, :text, :completed, :completed_at) do
+  Task = Relation.new(:priority, :created_at, :projects, :contexts, :text, :completed_at) do
     PRIORITY = /^\(([ABC])\) /
     DATE = /(\d\d\d\d-\d\d-\d\d) /
     CREATED_AT = /(?:#{PRIORITY}|^)#{DATE}/
@@ -17,7 +17,6 @@ module Todo
       completed_at = DateTime.parse(completed_at) if completed_at
       text = (raw =~ TEXT) && $1
       new(
-        completed: !!(raw =~ /^x /),
         completed_at: completed_at,
         priority: (raw =~ PRIORITY) && $1,
         created_at: created_at,
@@ -27,11 +26,20 @@ module Todo
       )
     end
 
+    def completed?
+      !!completed_at
+    end
+
+    def complete!
+      self.completed_at ||= Time.now
+    end
+
     def to_s
       ''.tap do |s|
+        s << "x #{completed_at.strftime('%Y-%m-%d')}" if completed?
         s << "(#{priority}) " if priority
         s << "#{created_at.strftime('%Y-%m-%d')} " if created_at
-        s << text
+        s << text.to_s
       end
     end
   end
