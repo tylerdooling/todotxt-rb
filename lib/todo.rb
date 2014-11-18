@@ -1,4 +1,3 @@
 require "todo/version"
-
-module Todo
-end
+require "todo/list"
+require "todo/task"

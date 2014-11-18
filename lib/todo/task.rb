@@ -1,3 +1,4 @@
+require 'date'
 require 'todo/relation'
 
 module Todo
@@ -21,8 +22,8 @@ module Todo
         priority: (raw =~ PRIORITY) && $1,
         created_at: created_at,
         text: text,
-        projects: Array(text.scan(PROJECTS)).flatten,
-        contexts: Array(text.scan(CONTEXTS)).flatten
+        projects: Array(text.to_s.scan(PROJECTS)).flatten,
+        contexts: Array(text.to_s.scan(CONTEXTS)).flatten
       )
     end
 
