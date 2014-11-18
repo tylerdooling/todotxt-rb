@@ -3,23 +3,57 @@ require 'todo/task'
 
 module Todo
   describe Task do
-    let(:tasks) {
-      [
-        'Call Mom',
-        '(A) Call Mom',
-        '(A) 2011-03-02 Call Mom',
-        '2011-03-02 Call Mom',
-        '2011-03-02 Call Mom +Family +PeaceLoveAndHappiness @iphone @phone',
-      ]
-    }
-    let(:completed) { nil }
-    let(:priority) { "(A) " }
-    let(:created_at) { "2011-03-02 " }
-    let(:text) { "Call Mom" }
-    let(:raw) { "#{completed}#{priority}#{created_at}#{text}" }
-    let(:todo) { Todo::Task.parse raw }
+    describe 'parse' do
+      context 'completed' do
+        let(:complete) { [
+          'x 2011-03-03 Call Mom',
+          'x 2011-03-03 2011-03-02 Call Mom'
+        ] }
 
-    context 'incomplete tasks' do
+        let(:incomplete) { [
+          'Call Mom',
+          'X 2011-03-02 Call Mom',
+          'X Really gotta call Mom (A) @phone @someday',
+        ] }
+
+        it 'parses completed tasks' do
+          complete.each do |t|
+            expect(Task.parse(t).completed).to be(true)
+          end
+        end
+
+        it 'parses incomplete tasks' do
+          incomplete.each do |t|
+            expect(Task.parse(t).completed).to be(false)
+          end
+        end
+      end
+
+      context 'completed_at' do
+        let(:complete) { [
+          'x 2011-03-03 Call Mom',
+          'x 2011-03-03 2011-03-02 Call Mom'
+        ] }
+
+        let(:incomplete) { [
+          'Call Mom',
+          'X 2011-03-02 Call Mom',
+          'X Really gotta call Mom (A) @phone @someday',
+        ] }
+
+        it 'parses completed_at for completed tasks' do
+          complete.each do |t|
+            expect(Task.parse(t).completed_at).to eq(DateTime.parse('2011-03-03'))
+          end
+        end
+
+        it 'ignores completed_at for incomplete tasks' do
+          incomplete.each do |t|
+            expect(Task.parse(t).completed_at).to be_nil
+          end
+        end
+      end
+
       context 'priority' do
         let(:tasks_with) { [
           '(A) Call Mom',
@@ -34,17 +68,17 @@ module Todo
           '(B)->Submit TPS report'
         ] }
 
-       it 'parses valid priority' do
-         tasks_with.each do |t|
-           expect(Task.parse(t).priority).to eq('A')
-         end
-       end
+        it 'parses valid priority' do
+          tasks_with.each do |t|
+            expect(Task.parse(t).priority).to eq('A')
+          end
+        end
 
-       it 'ignores invalid priority' do
-         tasks_without.each do |t|
-           expect(Task.parse(t).priority).to be_nil
-         end
-       end
+        it 'ignores invalid priority' do
+          tasks_without.each do |t|
+            expect(Task.parse(t).priority).to be_nil
+          end
+        end
       end
 
       context 'created_at' do
@@ -57,17 +91,17 @@ module Todo
           '(A) Call Mom 2011-03-02'
         ] }
 
-       it 'parses valid created_at' do
-         tasks_with.each do |t|
-           expect(Task.parse(t).created_at).to eq(DateTime.parse('2011-03-02'))
-         end
-       end
+        it 'parses valid created_at' do
+          tasks_with.each do |t|
+            expect(Task.parse(t).created_at).to eq(DateTime.parse('2011-03-02'))
+          end
+        end
 
-       it 'ignores invalid created_at' do
-         tasks_without.each do |t|
-           expect(Task.parse(t).created_at).to be_nil
-         end
-       end
+        it 'ignores invalid created_at' do
+          tasks_without.each do |t|
+            expect(Task.parse(t).created_at).to be_nil
+          end
+        end
       end
 
       context 'context and project' do
@@ -80,29 +114,29 @@ module Todo
           'Learn how to add 2+2'
         ] }
 
-       it 'parses valid context' do
-         tasks_with.each do |t|
-           expect(Task.parse(t).contexts).to eq(%w(iphone phone))
-         end
-       end
+        it 'parses valid context' do
+          tasks_with.each do |t|
+            expect(Task.parse(t).contexts).to eq(%w(iphone phone))
+          end
+        end
 
-       it 'parses valid project' do
-         tasks_with.each do |t|
-           expect(Task.parse(t).projects).to eq(%w(Family PeaceLoveAndHappiness))
-         end
-       end
+        it 'parses valid project' do
+          tasks_with.each do |t|
+            expect(Task.parse(t).projects).to eq(%w(Family PeaceLoveAndHappiness))
+          end
+        end
 
-       it 'ignores invalid context' do
-         tasks_without.each do |t|
-           expect(Task.parse(t).contexts).to be_empty
-         end
-       end
+        it 'ignores invalid context' do
+          tasks_without.each do |t|
+            expect(Task.parse(t).contexts).to be_empty
+          end
+        end
 
-       it 'ignores invalid project' do
-         tasks_without.each do |t|
-           expect(Task.parse(t).projects).to be_empty
-         end
-       end
+        it 'ignores invalid project' do
+          tasks_without.each do |t|
+            expect(Task.parse(t).projects).to be_empty
+          end
+        end
       end
 
       it 'parses text' do
