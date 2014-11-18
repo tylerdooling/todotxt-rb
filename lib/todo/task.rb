@@ -1,7 +1,7 @@
 require 'todo/relation'
 
 module Todo
-  Task = Relation.new(:priority, :created_at, :projects, :contexts, :text) do
+  Task = Relation.new(:priority, :created_at, :projects, :contexts, :text, :completed) do
     PRIORITY = /^\(([ABC])\) /
     CREATED_AT = /(?:#{PRIORITY}|^)(\d\d\d\d-\d\d-\d\d)/
     PROJECTS = /(?:^| )\+(\S+)/
@@ -14,6 +14,7 @@ module Todo
       created_at = DateTime.parse(created_at) if created_at
       text = (raw =~ TEXT) && $1
       new(
+        completed: (raw =~ /^x /) && true,
         priority: (raw =~ PRIORITY) && $1,
         created_at: created_at,
         text: text,

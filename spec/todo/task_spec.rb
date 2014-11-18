@@ -3,114 +3,118 @@ require 'todo/task'
 
 module Todo
   describe Task do
+    let(:tasks) {
+      [
+        'Call Mom',
+        '(A) Call Mom',
+        '(A) 2011-03-02 Call Mom',
+        '2011-03-02 Call Mom',
+        '2011-03-02 Call Mom +Family +PeaceLoveAndHappiness @iphone @phone',
+      ]
+    }
+    let(:completed) { nil }
     let(:priority) { "(A) " }
     let(:created_at) { "2011-03-02 " }
     let(:text) { "Call Mom" }
-    let(:raw) { "#{priority}#{created_at}#{text}" }
+    let(:raw) { "#{completed}#{priority}#{created_at}#{text}" }
     let(:todo) { Todo::Task.parse raw }
 
-    context 'when a priority exists' do
-      let(:priority) { "(A) " }
+    context 'incomplete tasks' do
+      context 'priority' do
+        let(:tasks_with) { [
+          '(A) Call Mom',
+          '(A) 2011-03-02 Call Mom'
+        ] }
 
-      it 'parses it' do
-        expect(todo.priority).to eq('A')
+        let(:tasks_without) { [
+          'Call Mom',
+          '2011-03-02 Call Mom',
+          'Really gotta call Mom (A) @phone @someday',
+          '(b) Get back to the boss',
+          '(B)->Submit TPS report'
+        ] }
+
+       it 'parses valid priority' do
+         tasks_with.each do |t|
+           expect(Task.parse(t).priority).to eq('A')
+         end
+       end
+
+       it 'ignores invalid priority' do
+         tasks_without.each do |t|
+           expect(Task.parse(t).priority).to be_nil
+         end
+       end
       end
 
-      it 'writes it' do
-        expect(todo.to_s).to match(PRIORITY)
-      end
-    end
+      context 'created_at' do
+        let(:tasks_with) { [
+          '2011-03-02 Document +TodoTxt task format',
+          '(A) 2011-03-02 Call Mom'
+        ] }
 
-    context 'when a priority does not exist' do
-      let(:priority) { nil }
+        let(:tasks_without) { [
+          '(A) Call Mom 2011-03-02'
+        ] }
 
-      it 'parses it' do
-        expect(todo.priority).to be_nil
-      end
+       it 'parses valid created_at' do
+         tasks_with.each do |t|
+           expect(Task.parse(t).created_at).to eq(DateTime.parse('2011-03-02'))
+         end
+       end
 
-      it 'writes it' do
-        expect(todo.to_s).to_not match(PRIORITY)
-      end
-    end
-
-    context 'when a created date exists' do
-      let(:created_at) { "2011-03-02 " }
-
-      it 'parses it' do
-        expect(todo.created_at).to eq(DateTime.parse '2011-03-02')
-      end
-
-      it 'writes it' do
-        expect(todo.to_s).to match(CREATED_AT)
-      end
-    end
-
-    context 'when a created date does not exist' do
-      let(:created_at) { nil }
-
-      it 'parses it' do
-        expect(todo.created_at).to be_nil
+       it 'ignores invalid created_at' do
+         tasks_without.each do |t|
+           expect(Task.parse(t).created_at).to be_nil
+         end
+       end
       end
 
-      it 'writes it' do
-        expect(todo.to_s).to_not match(CREATED_AT)
-      end
-    end
+      context 'context and project' do
+        let(:tasks_with) { [
+          '(A) Call Mom +Family +PeaceLoveAndHappiness @iphone @phone'
+        ] }
 
-    context 'when projects are present' do
-      let(:text) { "+project1 +Project2 Call Mom" }
+        let(:tasks_without) { [
+          'Email SoAndSo at soandso@example.com',
+          'Learn how to add 2+2'
+        ] }
 
-      it 'parses them' do
-        expect(todo.projects).to eq(%w(project1 Project2))
-      end
+       it 'parses valid context' do
+         tasks_with.each do |t|
+           expect(Task.parse(t).contexts).to eq(%w(iphone phone))
+         end
+       end
 
-      it 'writes them' do
-        expect(todo.to_s).to match(PROJECTS)
-      end
-    end
+       it 'parses valid project' do
+         tasks_with.each do |t|
+           expect(Task.parse(t).projects).to eq(%w(Family PeaceLoveAndHappiness))
+         end
+       end
 
-    context 'when projects are not present' do
-      let(:text) { "Call Mom" }
+       it 'ignores invalid context' do
+         tasks_without.each do |t|
+           expect(Task.parse(t).contexts).to be_empty
+         end
+       end
 
-      it 'parses them' do
-        expect(todo.projects).to be_empty
-      end
-
-      it 'writes them' do
-        expect(todo.to_s).to_not match(PROJECTS)
-      end
-    end
-
-    context 'when contexts are present' do
-      let(:text) { "@context1 @Context2 Call Mom" }
-
-      it 'parses them' do
-        expect(todo.contexts).to eq(%w(context1 Context2))
-      end
-
-      it 'writes them' do
-        expect(todo.to_s).to match(CONTEXTS)
-      end
-    end
-
-    context 'when contexts are not present' do
-      let(:text) { "Call Mom" }
-
-      it 'parses them' do
-        expect(todo.contexts).to be_empty
+       it 'ignores invalid project' do
+         tasks_without.each do |t|
+           expect(Task.parse(t).projects).to be_empty
+         end
+       end
       end
 
-      it 'writes them' do
-        expect(todo.to_s).to_not match(CONTEXTS)
+      it 'parses text' do
+        text = 'Call Mom +Family +PeaceLoveAndHappiness @iphone @phone'
+        [
+          "(A) 2011-03-02 #{text}",
+          "(A) #{text}",
+          text
+        ].each do |raw|
+          expect(Task.parse(raw).text).to eq(text)
+        end
       end
-    end
-
-    it 'parses the text' do
-      expect(todo.text).to eq(text)
-    end
-
-    it 'writes the text' do
-      expect(todo.to_s).to match(/#{text}/)
     end
   end
 end
