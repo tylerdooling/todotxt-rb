@@ -1,9 +1,12 @@
 class Relation < Struct
   def initialize(hash = {})
-    diff = (members | hash.keys) - members
-    unless diff.empty?
-      raise ArgumentError, "Unknown attributes #{diff}"
-    end
     super *(hash.values_at(*members))
+  rescue ArgumentError => error
+    diff = hash.keys - members
+    raise error, "Unknown attributes #{diff}"
+  end
+
+  def members
+    @members ||= super
   end
 end
