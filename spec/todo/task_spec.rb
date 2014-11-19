@@ -19,6 +19,23 @@ module TodoTxt
       end
     end
 
+    describe 'revive!' do
+      let(:todo) { Task.new }
+      before { todo.complete! }
+
+      it 'marks the task as not completed' do
+        expect(todo).to be_completed
+        todo.revive!
+        expect(todo).to_not be_completed
+      end
+
+      it 'removes the completed_at date' do
+        expect(todo.completed_at).to be
+        todo.revive!
+        expect(todo.completed_at).to be_nil
+      end
+    end
+
     describe 'parse' do
       context 'completed' do
         let(:complete) { [

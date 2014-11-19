@@ -42,6 +42,11 @@ module TodoTxt
       self.completed_at ||= Time.now
     end
 
+    # Marks a completed task as not complete and sets the required dependencies
+    def revive!
+      self.completed_at = nil
+    end
+
     def contexts
       Array(text.to_s.scan(CONTEXTS)).flatten
     end
