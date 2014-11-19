@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = TodoTxt::VERSION
   spec.authors       = ["Tyler Dooling"]
   spec.email         = ["me@tylerdooling.com"]
-  spec.summary       = %q{A ruby library for interacting with Todo.txt files and tasks.}
-  spec.description   = %q{A ruby library for interacting with Todo.txt files and tasks.}
+  spec.summary       = %q{A ruby library for interacting with Todo.txt formatted files.}
+  spec.description   = %q{A ruby library for interacting with Todo.txt formatted files.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
