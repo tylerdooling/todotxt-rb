@@ -65,6 +65,9 @@ TodoTxt::Task.new text: 'Call Mom'
 task.complete!
 ```
 
+## Alternatives
+- [todo-txt-gem](https://github.com/samwho/todo-txt-gem)
+
 ## Contributing
 
 1. Fork it ([https://github.com/tylerdooling/todotxt-rb/fork](https://github.com/tylerdooling/todotxt-rb/fork))
