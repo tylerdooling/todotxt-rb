@@ -1,5 +1,8 @@
 # TodoTxt
 
+[![Build
+Status](https://travis-ci.org/tylerdooling/todotxt-rb.svg)](https://travis-ci.org/tylerdooling/todotxt-rb)
+
 TodoTxt is a small ruby libary for easily interacting with [Todo.txt](http://todotxt.com) formatted files.
 
 ## Installation
