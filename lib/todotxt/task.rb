@@ -9,7 +9,7 @@ module TodoTxt
   # :completed_at The completed date for the task
   # :contexts The contexts mentioned in the task
   # :projects The projects mentioned in the task
-  Task = Relation.new(:priority, :created_at, :projects, :contexts, :text, :completed_at) do
+  Task = Relation.new(:priority, :created_at, :text, :completed_at) do
     PROJECTS = /(?:^| )\+(\S+)/
     CONTEXTS = /(?:^| )@(\S+)/
     COMPLETED_TASK = /^x (\d\d\d\d-\d\d-\d\d) (?:(\d\d\d\d-\d\d-\d\d) |)(.+)/
@@ -30,8 +30,6 @@ module TodoTxt
         args[:created_at] = DateTime.parse($2) if $2
         args[:text] = $3
       end
-      args[:projects] = Array(args[:text].to_s.scan(PROJECTS)).flatten
-      args[:contexts] = Array(args[:text].to_s.scan(CONTEXTS)).flatten
       new(args)
     end
 
@@ -42,6 +40,14 @@ module TodoTxt
     # Completes a task and sets the required dependencies
     def complete!
       self.completed_at ||= Time.now
+    end
+
+    def contexts
+      Array(text.to_s.scan(CONTEXTS)).flatten
+    end
+
+    def projects
+      Array(text.to_s.scan(PROJECTS)).flatten
     end
 
     def to_s
