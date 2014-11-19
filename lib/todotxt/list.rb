@@ -1,7 +1,7 @@
 require 'forwardable'
-require 'todo/task'
+require 'todotxt/task'
 
-module Todo
+module TodoTxt
   class List
     include Enumerable
     extend Forwardable

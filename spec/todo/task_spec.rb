@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'todo/task'
+require 'todotxt/task'
 
-module Todo
+module TodoTxt
   describe Task do
     describe 'complete!' do
       let(:todo) { Task.new }

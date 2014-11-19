@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'todo/version'
+require 'todotxt/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "todotxt-rb"
-  spec.version       = Todo::VERSION
+  spec.name          = "todotxt"
+  spec.version       = TodoTxt::VERSION
   spec.authors       = ["Tyler Dooling"]
   spec.email         = ["me@tylerdooling.com"]
   spec.summary       = %q{A ruby library for interacting with Todo.txt files and tasks.}

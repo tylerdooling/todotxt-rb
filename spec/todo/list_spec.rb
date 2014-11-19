@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'todo/list'
+require 'todotxt/list'
 
-module Todo
+module TodoTxt
   describe List do
     it 'is empty by default' do
       expect(List.new).to be_empty

@@ -1,7 +1,7 @@
 require 'date'
-require 'todo/relation'
+require 'todotxt/relation'
 
-module Todo
+module TodoTxt
   Task = Relation.new(:priority, :created_at, :projects, :contexts, :text, :completed_at) do
     PROJECTS = /(?:^| )\+(\S+)/
     CONTEXTS = /(?:^| )@(\S+)/
