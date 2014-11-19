@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Tyler Dooling"]
   spec.email         = ["me@tylerdooling.com"]
   spec.summary       = %q{A ruby library for interacting with Todo.txt formatted files.}
-  spec.description   = %q{A ruby library for interacting with Todo.txt formatted files.}
+  spec.description   = %q{TodoTxt is a ruby library for interacting with Todo.txt formatted files.  It provides a simple ruby object interface for creating addons or writing new Todo.txt compatible applications. }
   spec.homepage      = ""
   spec.license       = "MIT"
 
