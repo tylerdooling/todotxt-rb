@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'todotxt/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "todotxt"
+  spec.name          = "todotxt-rb"
   spec.version       = TodoTxt::VERSION
   spec.authors       = ["Tyler Dooling"]
   spec.email         = ["me@tylerdooling.com"]
