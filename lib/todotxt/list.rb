@@ -9,7 +9,7 @@ module TodoTxt
     include Enumerable
     extend Forwardable
 
-    def_delegators :tasks, *(Array.instance_methods)
+    def_delegators :tasks, *(Array.instance_methods - Object.instance_methods)
 
     # Parses a Todo.txt formatted file
     # @param [IO] file an IO input
