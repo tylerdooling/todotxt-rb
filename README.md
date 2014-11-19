@@ -1,6 +1,6 @@
 # TodoTxt
 
-TodoTxt is a small ruby libary for easily interacting with [todo.txt](http://todotxt.com) formatted files.
+TodoTxt is a small ruby libary for easily interacting with [Todo.txt](http://todotxt.com) formatted files.
 
 ## Installation
 
@@ -48,8 +48,7 @@ list.to_file(file) #=> accepts any IO
 
 ### Tasks
 Tasks are nothing more than a simple wrapper around a struct.  They can
-be parsed from an existing [todo.txt](http://todotxt.com) formatted task
-or created from scratch.
+be parsed from an existing [Todo.txt formatted](https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format) task or created from scratch.
 
 ```ruby
 # Parse a task

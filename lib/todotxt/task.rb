@@ -2,12 +2,21 @@ require 'date'
 require 'todotxt/relation'
 
 module TodoTxt
+  # A basic Todo.txt task
+  # :priority The task priority
+  # :created_at The created date for the task
+  # :text The text for the task
+  # :completed_at The completed date for the task
+  # :contexts The contexts mentioned in the task
+  # :projects The projects mentioned in the task
   Task = Relation.new(:priority, :created_at, :projects, :contexts, :text, :completed_at) do
     PROJECTS = /(?:^| )\+(\S+)/
     CONTEXTS = /(?:^| )@(\S+)/
     COMPLETED_TASK = /^x (\d\d\d\d-\d\d-\d\d) (?:(\d\d\d\d-\d\d-\d\d) |)(.+)/
     PRIORITIZED_TASK = /^(?:\(([ABC])\) |)(?:(\d\d\d\d-\d\d-\d\d) |)(.+)/
 
+    # Parses an existing Todo.txt task from a string
+    # @param [String] raw the task string
     def self.parse(raw)
       args = {}
       args[:text] = raw
@@ -30,6 +39,7 @@ module TodoTxt
       !!completed_at
     end
 
+    # Completes a task and sets the required dependencies
     def complete!
       self.completed_at ||= Time.now
     end
