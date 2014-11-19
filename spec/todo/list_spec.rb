@@ -52,5 +52,32 @@ X Really gotta call Mom (A) @phone @someday
         end
       end
     end
+
+    describe 'to_file' do
+      let(:tasks) {
+        <<-TASKS
+(A) Call Mom +Family +PeaceLoveAndHappiness @iphone @phone
+Email SoAndSo at soandso@example.com
+Learn how to add 2+2
+x 2011-03-03 Call Mom
+x 2011-03-03 2011-03-02 Call Mom
+Call Mom
+X 2011-03-02 Call Mom
+X Really gotta call Mom (A) @phone @someday
+        TASKS
+      }
+      before do
+        `rm /tmp/test-todo-task-list.txt`
+      end
+
+      it 'writes the same content it reads (sanity check)' do
+        input = StringIO.new(tasks)
+        output = StringIO.new
+        list = List.from_file(input)
+        list.to_file(output)
+        output.rewind
+        expect(output.read).to eq(tasks.chomp)
+      end
+    end
   end
 end

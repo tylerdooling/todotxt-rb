@@ -24,6 +24,14 @@ module Todo
       tasks.each { |t| yield t }
     end
 
+    def to_s
+      map(&:to_s).join("\n")
+    end
+
+    def to_file(file)
+      file.write(to_s)
+    end
+
     private
 
     attr_reader :tasks
