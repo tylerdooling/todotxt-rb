@@ -5,3 +5,4 @@ rvm:
   - 2.1.0
   - rbx-2.2.10
   - jruby
+env: CODECLIMATE_REPO_TOKEN=2d175159b455fc58b5979b37c2ee9414c76e8f0fb2ad670bcadf22bc596ac132
