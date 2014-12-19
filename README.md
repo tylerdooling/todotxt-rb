@@ -1,9 +1,8 @@
 # TodoTxt
 
-[![Build
-Status](https://travis-ci.org/tylerdooling/todotxt-rb.svg)](https://travis-ci.org/tylerdooling/todotxt-rb)
+[![Build Status](https://travis-ci.org/tylerdooling/todotxt-rb.svg)](https://travis-ci.org/tylerdooling/todotxt-rb)
 
-TodoTxt is a small ruby libary for easily interacting with [Todo.txt](http://todotxt.com) formatted files.
+TodoTxt is a small ruby libary for easily interacting with [todo.txt](http://todotxt.com) formatted files.
 
 ## Installation
 
@@ -51,7 +50,7 @@ list.to_file(file) #=> accepts any IO
 
 ### Tasks
 Tasks are nothing more than a simple wrapper around a struct.  They can
-be parsed from an existing [Todo.txt formatted](https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format) task or created from scratch.
+be parsed from an existing [todo.txt formatted](https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format) task or created from scratch.
 
 ```ruby
 # Parse a task
@@ -65,7 +64,7 @@ TodoTxt::Task.new text: 'Call Mom'
 task.complete!
 ```
 
-## Creating a [Todo.txt](http://todotxt.com) add-on
+## Creating a [todo.txt](http://todotxt.com) add-on
 [This page](https://github.com/ginatrapani/todo.txt-cli/wiki/Creating-and-Installing-Add-ons) provides basic documentation on creating todo.txt add-ons.
 Below is a sample of what an addon can look like using this library.
 If you're someone who uses todo.txt for task tracking throughout the
