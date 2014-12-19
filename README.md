@@ -1,6 +1,8 @@
 # TodoTxt
 
 [![Build Status](https://travis-ci.org/tylerdooling/todotxt-rb.svg)](https://travis-ci.org/tylerdooling/todotxt-rb)
+[![Code Climate](https://codeclimate.com/github/tylerdooling/todotxt-rb/badges/gpa.svg)](https://codeclimate.com/github/tylerdooling/todotxt-rb)
+[![Test Coverage](https://codeclimate.com/github/tylerdooling/todotxt-rb/badges/coverage.svg)](https://codeclimate.com/github/tylerdooling/todotxt-rb)
 
 TodoTxt is a small ruby libary for easily interacting with [todo.txt](http://todotxt.com) formatted files.
 
