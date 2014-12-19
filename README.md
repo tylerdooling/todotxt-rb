@@ -65,6 +65,59 @@ TodoTxt::Task.new text: 'Call Mom'
 task.complete!
 ```
 
+## Creating a [Todo.txt](http://todotxt.com) add-on
+[This page](https://github.com/ginatrapani/todo.txt-cli/wiki/Creating-and-Installing-Add-ons) provides basic documentation on creating todo.txt add-ons.
+Below is a sample of what an addon can look like using this library.
+If you're someone who uses todo.txt for task tracking throughout the
+day, this add-on allows you to record tasks that are already completed.
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'todotxt'
+require 'optparse'
+
+if ARGV.size == 1 && ARGV.first == 'usage'
+  puts <<-EOF
+  Record completed task:
+    report PRIORITY "THING I HAVE DONE ALREADY +project @context"
+    report -o DATE PRIORITY "THING I HAVE DONE ALREADY +project @context"
+
+  EOF
+  exit
+end
+
+options = { date: Date.today }
+OptionParser.new { |opts|
+  opts.banner = "TODO"
+
+  opts.on("-o", "--on [DATE]", "Date the task was completed") do |date|
+    options[:date] = Date.parse date
+  end
+}.parse!
+
+ARGV.shift #remove record
+done_file = File.join(ENV['TODO_DIR'], 'done.txt')
+current_done_tasks = File.read(done_file)
+
+begin
+  File.open(File.join(ENV['TODO_DIR'], 'done.txt'), 'r+') do |file|
+    list = TodoTxt::List.from_file(file)
+    task = TodoTxt::Task.parse(ARGV.join(' '))
+    task.completed_at = options[:date]
+    list << task
+    file.rewind
+    file.truncate(file.pos)
+    list.to_file(file)
+  end
+  puts "Added completed task: #{task.to_s}"
+rescue
+  File.open(done_file, 'w') { |file| file.puts current_done_tasks }
+  puts "Failed to add task - reverting"
+  exit 1
+end
+```
+
 ## Alternatives
 - [todo-txt-gem](https://github.com/samwho/todo-txt-gem)
 
