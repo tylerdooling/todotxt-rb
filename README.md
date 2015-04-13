@@ -20,7 +20,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install todotxt
+    $ gem install todotxt-rb
 
 ## Usage
 
