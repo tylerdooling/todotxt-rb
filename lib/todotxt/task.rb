@@ -13,7 +13,7 @@ module TodoTxt
     PROJECTS = /(?:^| )\+(\S+)/
     CONTEXTS = /(?:^| )@(\S+)/
     COMPLETED_TASK = /^x (\d\d\d\d-\d\d-\d\d) (?:(\d\d\d\d-\d\d-\d\d) |)(.+)/
-    PRIORITIZED_TASK = /^(?:\(([ABC])\) |)(?:(\d\d\d\d-\d\d-\d\d) |)(.+)/
+    PRIORITIZED_TASK = /^(?:\(([A-Z])\) |)(?:(\d\d\d\d-\d\d-\d\d) |)(.+)/
 
     # Parses an existing Todo.txt task from a string
     # @param [String] raw the task string
